@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginRequest {
 
-  //TODO: добавить авто-логирование в перехвадчик запросов и создать анатацию, которая будет скрывать значение поля в логах
-
   @NotNull(message = "Login is required")
   private String login;
 

@@ -1,5 +1,6 @@
 package alien.marshmallow.auth_service.domain.dto;
 
+import alien.marshmallow.auth_service.annotations.Sensitive;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ public class RefreshTokenRequest {
 
   @NotNull
   @NotBlank
+  @Sensitive
   private String refreshToken;
 
 }

@@ -1,12 +1,17 @@
 package alien.marshmallow.auth_service.domain.dto;
 
+import alien.marshmallow.auth_service.annotations.Sensitive;
 import lombok.Data;
 
 @Data
 public class TokenResponse {
 
+  @Sensitive
   private String accessToken;
+
+  @Sensitive
   private String refreshToken;
+
   private String tokenType;
   private long expiresIn; // in seconds
 
