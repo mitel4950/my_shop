@@ -8,7 +8,10 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.List;
+import lombok.SneakyThrows;
 
 public class SensitiveMaskingModule extends SimpleModule {
 
@@ -35,7 +38,8 @@ public class SensitiveMaskingModule extends SimpleModule {
 
   static final class MaskingWriter extends BeanPropertyWriter {
 
-    private static final String CENSORED_STRING = "⚡️%$\uD83E\uDD2C!#";
+    private static final String[] SYMBOLS = {
+        "@", "#", "$", "%", "&", "!", "?", "💀", "🤬", "🔥", "💣", "👿", "🤯", "💥", "💩", "👽", "🤡", "🦄"};
 
     MaskingWriter(BeanPropertyWriter base) {
       super(base);
@@ -54,7 +58,21 @@ public class SensitiveMaskingModule extends SimpleModule {
         prov.defaultSerializeNull(gen);
         return;
       }
-      gen.writeString(CENSORED_STRING);
+      gen.writeString(generateCensoredString(value.toString()));
+    }
+
+    @SneakyThrows
+    private static String generateCensoredString(String input) {
+      MessageDigest digest = MessageDigest.getInstance("SHA-256");
+      byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < 8; i++) {
+        int index = Byte.toUnsignedInt(hash[i]) % SYMBOLS.length;
+        sb.append(SYMBOLS[index]);
+      }
+
+      return sb.toString();
     }
   }
 }
