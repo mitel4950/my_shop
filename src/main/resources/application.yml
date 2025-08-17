@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${SLD:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:authdb}
+    username: ${POSTGRES_USER:authuser}
+    password: ${POSTGRES_PASSWORD:authpass}
+    hikari:
+      data-source-properties:
+        options: -c TimeZone=UTC # TODO: убрать это значение из VM options
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          timezone: UTC
+        format_sql: true
+  flyway:
+    enabled: true
+  redis:
+    host: localhost
+    port: ${REDIS_PORT:6379}
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+app:
+  jwt:
+    issuer: alien-auth
+    audience: ${PROJECT_NAME:auth-service}
+    access-ttl-seconds: ${ACCESS_TOKEN_TTL:3600}
+    refresh-ttl-seconds: ${MAX_SESSIONS_EXISTING_TIME:43200}  # 12 hours in seconds
+    secret: ${SECRET:super-secret-key-super-secret-key-super-secret-key}
+    max-sessions-per-user: ${MAX_SESSIONS_PER_USER:2}
