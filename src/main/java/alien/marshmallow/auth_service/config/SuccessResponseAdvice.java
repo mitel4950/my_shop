@@ -1,4 +1,4 @@
-package alien.marshmallow.auth_service.annotations.advices;
+package alien.marshmallow.auth_service.config;
 
 import alien.marshmallow.auth_service.annotations.SuccessResponse;
 import alien.marshmallow.auth_service.domain.dto.MessageResponse;

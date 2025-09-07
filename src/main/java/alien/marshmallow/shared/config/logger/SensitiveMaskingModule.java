@@ -1,6 +1,6 @@
-package alien.marshmallow.auth_service.config.logger;
+package alien.marshmallow.shared.config.logger;
 
-import alien.marshmallow.auth_service.annotations.Sensitive;
+import alien.marshmallow.shared.annotations.Sensitive;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.SerializationConfig;

@@ -1,6 +1,6 @@
 package alien.marshmallow.auth_service.domain.dto;
 
-import alien.marshmallow.auth_service.annotations.Sensitive;
+import alien.marshmallow.shared.annotations.Sensitive;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

@@ -1,6 +1,6 @@
-package alien.marshmallow.auth_service.config;
+package alien.marshmallow.shared.config;
 
-import alien.marshmallow.auth_service.exception.CustomException;
+import alien.marshmallow.shared.exception.CustomException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;

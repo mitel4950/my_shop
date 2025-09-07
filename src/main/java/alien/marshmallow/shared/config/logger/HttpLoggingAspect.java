@@ -1,4 +1,4 @@
-package alien.marshmallow.auth_service.config.logger;
+package alien.marshmallow.shared.config.logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

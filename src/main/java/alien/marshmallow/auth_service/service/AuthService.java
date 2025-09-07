@@ -6,7 +6,7 @@ import alien.marshmallow.auth_service.domain.dto.SignUpRequest;
 import alien.marshmallow.auth_service.domain.dto.TokenResponse;
 import alien.marshmallow.auth_service.domain.entity.UserAuthEntity;
 import alien.marshmallow.auth_service.domain.enums.UserRole;
-import alien.marshmallow.auth_service.exception.BadRequestException;
+import alien.marshmallow.shared.exception.BadRequestException;
 import alien.marshmallow.auth_service.exception.RefreshTokenException;
 import alien.marshmallow.auth_service.mapper.UserMapper;
 import alien.marshmallow.auth_service.repository.postgres.UserAuthRepository;

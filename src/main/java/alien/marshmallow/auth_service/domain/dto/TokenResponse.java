@@ -1,6 +1,6 @@
 package alien.marshmallow.auth_service.domain.dto;
 
-import alien.marshmallow.auth_service.annotations.Sensitive;
+import alien.marshmallow.shared.annotations.Sensitive;
 import lombok.Data;
 
 @Data
