@@ -1,4 +1,4 @@
-CREATE TABLE user_auth
+CREATE TABLE IF NOT EXISTS user_auth
 (
     login     VARCHAR(50) PRIMARY KEY,
     password  VARCHAR(100) NOT NULL,

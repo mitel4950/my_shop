@@ -1,4 +1,4 @@
-package alien.marshmallow.auth_service;
+package alien.marshmallow;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
