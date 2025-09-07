@@ -1,7 +1,7 @@
 package alien.marshmallow.main_service.service;
 
 import alien.marshmallow.main_service.domain.dto.GoodsCreateRequest;
-import alien.marshmallow.main_service.domain.dto.GoodsResponse;
+import alien.marshmallow.main_service.domain.dto.GoodsDto;
 import alien.marshmallow.main_service.domain.dto.GoodsUpdateRequest;
 import alien.marshmallow.main_service.domain.entity.GoodsEntity;
 import alien.marshmallow.main_service.mapper.GoodsMapper;
@@ -20,40 +20,33 @@ public class GoodsService {
   private final GoodsMapper mapper;
 
   @Transactional
-  public GoodsResponse create(GoodsCreateRequest req) {
-    GoodsEntity entity = mapper.fromCreate(req);
+  public GoodsDto create(GoodsCreateRequest req) {
+    GoodsEntity entity = mapper.toEntity(req);
     GoodsEntity saved = repository.save(entity);
-    return mapper.toResponse(saved);
+    return mapper.toDto(saved);
   }
 
   @Transactional
-  public GoodsResponse update(UUID id, GoodsUpdateRequest req) {
-    GoodsEntity entity = repository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Goods not found: " + id));
-
-    mapper.merge(entity, req);
-
-    GoodsEntity saved = repository.save(entity);
-    return mapper.toResponse(saved);
+  public GoodsDto update(UUID id, GoodsUpdateRequest req) {
+    GoodsEntity existing = repository.getRequired(id);
+    mapper.merge(existing, req);
+    GoodsEntity saved = repository.save(existing);
+    return mapper.toDto(saved);
   }
 
   @Transactional
   public void delete(UUID id) {
-    if (!repository.existsById(id)) {
-      throw new IllegalArgumentException("Goods not found: " + id);
-    }
-    repository.deleteById(id);
+    repository.delete(repository.getRequired(id));
   }
 
   @Transactional(readOnly = true)
-  public GoodsResponse findOne(UUID id) {
-    return repository.findById(id)
-        .map(mapper::toResponse)
-        .orElseThrow(() -> new IllegalArgumentException("Goods not found: " + id));
+  public GoodsDto findOne(UUID id) {
+    GoodsEntity exist = repository.getRequired(id);
+    return mapper.toDto(exist);
   }
 
   @Transactional(readOnly = true)
-  public List<GoodsResponse> findAll() {
-    return mapper.toResponseList(repository.findAll());
+  public List<GoodsDto> findAll() {
+    return mapper.toDtoList(repository.findAll());
   }
 }

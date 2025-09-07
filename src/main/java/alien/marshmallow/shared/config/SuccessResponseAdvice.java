@@ -1,6 +1,6 @@
-package alien.marshmallow.auth_service.config;
+package alien.marshmallow.shared.config;
 
-import alien.marshmallow.auth_service.annotations.SuccessResponse;
+import alien.marshmallow.shared.annotations.SuccessResponse;
 import alien.marshmallow.auth_service.domain.dto.MessageResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;

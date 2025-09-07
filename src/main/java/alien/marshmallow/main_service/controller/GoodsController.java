@@ -1,9 +1,10 @@
 package alien.marshmallow.main_service.controller;
 
 import alien.marshmallow.main_service.domain.dto.GoodsCreateRequest;
-import alien.marshmallow.main_service.domain.dto.GoodsResponse;
+import alien.marshmallow.main_service.domain.dto.GoodsDto;
 import alien.marshmallow.main_service.domain.dto.GoodsUpdateRequest;
 import alien.marshmallow.main_service.service.GoodsService;
+import alien.marshmallow.shared.annotations.SuccessResponse;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -29,27 +30,27 @@ public class GoodsController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public GoodsResponse create(@RequestBody @Valid GoodsCreateRequest req) {
+  public GoodsDto create(@RequestBody @Valid GoodsCreateRequest req) {
     return service.create(req);
   }
 
   @PutMapping("/{id}")
-  public GoodsResponse update(@PathVariable UUID id, @RequestBody @Valid GoodsUpdateRequest req) {
+  public GoodsDto update(@PathVariable UUID id, @RequestBody @Valid GoodsUpdateRequest req) {
     return service.update(id, req);
   }
 
   @GetMapping("/{id}")
-  public GoodsResponse get(@PathVariable UUID id) {
+  public GoodsDto get(@PathVariable UUID id) {
     return service.findOne(id);
   }
 
   @GetMapping
-  public List<GoodsResponse> list() {
+  public List<GoodsDto> list() {
     return service.findAll();
   }
 
   @DeleteMapping("/{id}")
-  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @SuccessResponse(status = HttpStatus.NO_CONTENT, message = "Deleted successfully")
   public void delete(@PathVariable UUID id) {
     service.delete(id);
   }

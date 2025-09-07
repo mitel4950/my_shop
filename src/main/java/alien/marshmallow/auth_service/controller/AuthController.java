@@ -1,6 +1,6 @@
 package alien.marshmallow.auth_service.controller;
 
-import alien.marshmallow.auth_service.annotations.SuccessResponse;
+import alien.marshmallow.shared.annotations.SuccessResponse;
 import alien.marshmallow.auth_service.domain.dto.LoginRequest;
 import alien.marshmallow.auth_service.domain.dto.RefreshTokenRequest;
 import alien.marshmallow.auth_service.domain.dto.SignUpRequest;
