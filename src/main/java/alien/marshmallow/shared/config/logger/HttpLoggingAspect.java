@@ -33,28 +33,24 @@ public class HttpLoggingAspect {
     HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
     String method = req.getMethod();
     String uri = req.getRequestURI();
-    String qs = req.getQueryString() != null ? "?" + req.getQueryString() : "";
+    String queryString = req.getQueryString() != null ? "?" + req.getQueryString() : "";
     String reqBody = buildBodyJson(pjp.getArgs());
 
     String principal = "ANONIM";
 
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if(authentication != null
+    if (authentication != null
         && authentication.isAuthenticated()
         && !"anonymousUser".equals(authentication.getName())) {
       principal = authentication.getName();
     }
 
-    StringBuilder requestLog = new StringBuilder()
-        .append(principal).append(" ")
-        .append("Request: ")
-        .append(method).append(" ")
-        .append(method).append(qs);
-
+    String requestBody = "";
     if (!reqBody.isBlank()) {
-      requestLog.append("\nBODY:\n").append(reqBody);
+      requestBody = "\nBODY:\n" + reqBody;
     }
-    log.info(requestLog.toString());
+
+    log.info("{} Request: {} {}{}{}", principal, method, uri, queryString, requestBody);
 
     Object result;
     int status = 200;
@@ -66,14 +62,15 @@ public class HttpLoggingAspect {
       if (exStatus != null) {
         status = exStatus;
       }
-      log.error("Response: {} {}{}\nSTATUS: {}\nERROR: {}",
-                method, uri, qs, status, ex.getMessage());
+      log.error("{} Response: {} {}{}\nSTATUS: {}\nERROR: {}",
+                principal, method, uri, queryString, status, ex.getMessage());
       throw ex;
     }
 
     Object respBody = (result instanceof ResponseEntity<?> re) ? re.getBody() : result;
     String respJson = toJson(respBody);
-    log.info("{} Response: {} {}{}\nSTATUS: {}\nBODY:\n{}", principal, method, uri, qs, status, respJson);
+    log.info("{} Response: {} {}{}\nSTATUS: {}\nBODY:\n{}",
+             principal, method, uri, queryString, status, respJson);
 
     return result;
   }
