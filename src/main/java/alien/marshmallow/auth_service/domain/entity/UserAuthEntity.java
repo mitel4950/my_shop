@@ -1,6 +1,6 @@
 package alien.marshmallow.auth_service.domain.entity;
 
-import alien.marshmallow.auth_service.domain.enums.UserRole;
+import alien.marshmallow.shared.domain.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

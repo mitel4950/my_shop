@@ -9,6 +9,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -34,7 +36,17 @@ public class HttpLoggingAspect {
     String qs = req.getQueryString() != null ? "?" + req.getQueryString() : "";
     String reqBody = buildBodyJson(pjp.getArgs());
 
+    String principal = "ANONIM";
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if(authentication != null
+        && authentication.isAuthenticated()
+        && !"anonymousUser".equals(authentication.getName())) {
+      principal = authentication.getName();
+    }
+
     StringBuilder requestLog = new StringBuilder()
+        .append(principal).append(" ")
         .append("Request: ")
         .append(method).append(" ")
         .append(method).append(qs);
@@ -61,7 +73,7 @@ public class HttpLoggingAspect {
 
     Object respBody = (result instanceof ResponseEntity<?> re) ? re.getBody() : result;
     String respJson = toJson(respBody);
-    log.info("Response: {} {}{}\nSTATUS: {}\nBODY:\n{}", method, uri, qs, status, respJson);
+    log.info("{} Response: {} {}{}\nSTATUS: {}\nBODY:\n{}", principal, method, uri, qs, status, respJson);
 
     return result;
   }

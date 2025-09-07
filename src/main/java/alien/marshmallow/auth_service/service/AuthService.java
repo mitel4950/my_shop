@@ -1,16 +1,16 @@
 package alien.marshmallow.auth_service.service;
 
-import alien.marshmallow.auth_service.config.JwtProperties;
+import alien.marshmallow.shared.config.auth.JwtProperties;
 import alien.marshmallow.auth_service.domain.dto.LoginRequest;
 import alien.marshmallow.auth_service.domain.dto.SignUpRequest;
 import alien.marshmallow.auth_service.domain.dto.TokenResponse;
 import alien.marshmallow.auth_service.domain.entity.UserAuthEntity;
-import alien.marshmallow.auth_service.domain.enums.UserRole;
+import alien.marshmallow.shared.domain.UserRole;
 import alien.marshmallow.shared.exception.BadRequestException;
 import alien.marshmallow.auth_service.exception.RefreshTokenException;
 import alien.marshmallow.auth_service.mapper.UserMapper;
-import alien.marshmallow.auth_service.repository.postgres.UserAuthRepository;
-import alien.marshmallow.auth_service.repository.redis.RedisAuthTokenRepository;
+import alien.marshmallow.auth_service.repository.UserAuthRepository;
+import alien.marshmallow.auth_service.repository.RedisAuthTokenRepository;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSSigner;
@@ -81,10 +81,7 @@ public class AuthService {
 
 
   private String generateAccessToken(UserAuthEntity user) {
-    return generateToken(user,
-                         jwtProperties.getAccessTtl(),
-                         "access",
-                         user.getRole().name());
+    return generateToken(user, jwtProperties.getAccessTtl(), "access", user.getRole().name());
   }
 
   private String generateRefreshToken(UserAuthEntity user) {
@@ -151,6 +148,8 @@ public class AuthService {
       if (!"refresh".equals(type)) {
         throw new RefreshTokenException("Not a refresh token");
       }
+    } catch (RefreshTokenException e){
+      throw e;
     } catch (Exception e) {
       throw new RefreshTokenException("Invalid refresh token");
     }

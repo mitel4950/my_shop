@@ -1,4 +1,4 @@
-package alien.marshmallow.auth_service.repository.postgres;
+package alien.marshmallow.auth_service.repository;
 
 import alien.marshmallow.auth_service.domain.entity.UserAuthEntity;
 import java.util.Optional;

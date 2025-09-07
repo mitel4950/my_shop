@@ -1,4 +1,4 @@
-package alien.marshmallow.auth_service.config;
+package alien.marshmallow.shared.config.auth;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

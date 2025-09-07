@@ -1,4 +1,4 @@
-package alien.marshmallow.auth_service.repository.redis;
+package alien.marshmallow.auth_service.repository;
 
 import java.time.Duration;
 import java.util.Optional;

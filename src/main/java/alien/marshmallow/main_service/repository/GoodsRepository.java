@@ -13,5 +13,4 @@ public interface GoodsRepository extends JpaRepository<GoodsEntity, UUID> {
     return findById(id).orElseThrow(
         () -> new BadRequestException(id, "Goods not found by id: " + id));
   }
-
 }

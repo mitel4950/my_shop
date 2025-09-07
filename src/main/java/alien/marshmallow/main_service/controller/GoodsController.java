@@ -4,7 +4,9 @@ import alien.marshmallow.main_service.domain.dto.GoodsCreateRequest;
 import alien.marshmallow.main_service.domain.dto.GoodsDto;
 import alien.marshmallow.main_service.domain.dto.GoodsUpdateRequest;
 import alien.marshmallow.main_service.service.GoodsService;
+import alien.marshmallow.shared.annotations.RequireAbility;
 import alien.marshmallow.shared.annotations.SuccessResponse;
+import alien.marshmallow.shared.domain.Ability;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequireAbility(Ability.READ)
 @RestController
 @RequestMapping(value = "/api/goods", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
@@ -29,12 +32,14 @@ public class GoodsController {
   private final GoodsService service;
 
   @PostMapping
+  @RequireAbility(Ability.GOODS_CRAD)
   @ResponseStatus(HttpStatus.CREATED)
   public GoodsDto create(@RequestBody @Valid GoodsCreateRequest req) {
     return service.create(req);
   }
 
   @PutMapping("/{id}")
+  @RequireAbility(Ability.GOODS_CRAD)
   public GoodsDto update(@PathVariable UUID id, @RequestBody @Valid GoodsUpdateRequest req) {
     return service.update(id, req);
   }
